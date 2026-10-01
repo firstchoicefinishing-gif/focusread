@@ -1,0 +1,150 @@
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:type="TaskPaneApp">
+
+  <Id>7d9e3c7f-1d5a-4c9e-b2d4-6f7e8a1c5b93</Id>
+
+  <Version>1.0.0.0</Version>
+
+  <ProviderName>FocusRead</ProviderName>
+
+  <DefaultLocale>en-GB</DefaultLocale>
+
+  <DisplayName DefaultValue="FocusRead"/>
+
+  <Description DefaultValue="Make dense text easier to scan."/>
+
+  <IconUrl DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/assets/icon-32.png"/>
+
+  <HighResolutionIconUrl DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/assets/icon-80.png"/>
+
+  <SupportUrl DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/"/>
+
+  <AppDomains>
+    <AppDomain>https://firstchoicefinishing-gif.github.io</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Document"/>
+  </Hosts>
+
+  <DefaultSettings>
+    <SourceLocation
+      DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/src/taskpane.html"/>
+  </DefaultSettings>
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides
+    xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xsi:type="VersionOverridesV1_0">
+
+    <Description resid="Description"/>
+
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.3">
+        <bt:Set Name="WordApi"/>
+      </bt:Sets>
+    </Requirements>
+
+    <Hosts>
+      <Host xsi:type="Document">
+
+        <DesktopFormFactor>
+
+          <FunctionFile resid="Commands.Url"/>
+
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+
+            <OfficeTab id="TabHome">
+
+              <Group id="FocusReadGroup">
+
+                <Label resid="GroupLabel"/>
+
+                <Control xsi:type="Button" id="FocusReadButton">
+
+                  <Label resid="ButtonLabel"/>
+
+                  <Supertip>
+                    <Title resid="ButtonLabel"/>
+                    <Description resid="ButtonDescription"/>
+                  </Supertip>
+
+                  <Icon>
+                    <bt:Image size="16" resid="Icon16"/>
+                    <bt:Image size="32" resid="Icon32"/>
+                    <bt:Image size="80" resid="Icon80"/>
+                  </Icon>
+
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+
+                </Control>
+
+              </Group>
+
+            </OfficeTab>
+
+          </ExtensionPoint>
+
+        </DesktopFormFactor>
+
+      </Host>
+    </Hosts>
+
+    <Resources>
+
+      <bt:Images>
+
+        <bt:Image id="Icon16"
+          DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/assets/icon-16.png"/>
+
+        <bt:Image id="Icon32"
+          DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/assets/icon-32.png"/>
+
+        <bt:Image id="Icon80"
+          DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/assets/icon-80.png"/>
+
+      </bt:Images>
+
+      <bt:Urls>
+
+        <bt:Url id="Commands.Url"
+          DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/src/commands.html"/>
+
+        <bt:Url id="Taskpane.Url"
+          DefaultValue="https://firstchoicefinishing-gif.github.io/focusread/src/taskpane.html"/>
+
+      </bt:Urls>
+
+      <bt:ShortStrings>
+
+        <bt:String id="GroupLabel"
+          DefaultValue="FocusRead"/>
+
+        <bt:String id="ButtonLabel"
+          DefaultValue="FocusRead"/>
+
+      </bt:ShortStrings>
+
+      <bt:LongStrings>
+
+        <bt:String id="ButtonDescription"
+          DefaultValue="Open FocusRead to emphasise the beginning of words."/>
+
+        <bt:String id="Description"
+          DefaultValue="FocusRead helps make dense text easier to scan."/>
+
+      </bt:LongStrings>
+
+    </Resources>
+
+  </VersionOverrides>
+
+</OfficeApp>
+```
