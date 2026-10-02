@@ -57,7 +57,7 @@ async function applyFocusRead() {
         """, "'"
       ];
 
-      const ranges = selection.getTextRanges(separators, true);
+      const ranges = selection.split([" ", "\t", "\r", "\n"], true, true, true);
       ranges.load("items/text");
       await context.sync();
 
