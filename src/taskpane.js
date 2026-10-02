@@ -1,5 +1,4 @@
 let originalOoxml = null;
-let savedSelection = false;
 let busy = false;
 
 Office.onReady(() => {
@@ -20,7 +19,7 @@ Office.onReady(() => {
     });
   });
 
-  document.getElementById("apply").addEventListener("click", applyFocusRead);
+  document.getElementById("apply").addEventListener("click", testWordFormatting);
   document.getElementById("restore").addEventListener("click", restoreOriginal);
 });
 
@@ -30,71 +29,41 @@ function setStatus(message, error = false) {
   el.style.color = error ? "#a33" : "#66717d";
 }
 
-async function applyFocusRead() {
+async function testWordFormatting() {
   if (busy) return;
   busy = true;
 
   try {
-    setStatus("Reading selection...");
+    setStatus("Testing Word formatting...");
 
     await Word.run(async context => {
       const selection = context.document.getSelection();
       selection.load("text");
       await context.sync();
 
-      const text = (selection.text || "").trim();
-      if (!text) throw new Error("Select some text in Word first.");
+      if (!(selection.text || "").trim()) {
+        throw new Error("Select some text in Word first.");
+      }
 
       originalOoxml = selection.getOoxml();
       await context.sync();
 
-      const percentage = Number(document.getElementById("strength").value);
-      const ranges = selection.getTextRanges([" ", "\t", "\r", "\n", ".", ",", ";", ":", "!", "?", "(", ")", "[", "]", "{", "}", "/", "\\", "-", "—", "–", """, "'"], true);
-      ranges.load("items/text");
+      selection.font.bold = true;
       await context.sync();
-
-      let changed = 0;
-
-      for (const range of ranges.items) {
-        const word = (range.text || "").trim();
-        if (!word) continue;
-
-        const count = Math.max(1, Math.ceil(word.length * percentage / 100));
-        const prefix = word.slice(0, count);
-
-        const matches = range.search(prefix, {
-          matchCase: true,
-          matchWholeWord: false
-        });
-        matches.load("items");
-        await context.sync();
-
-        for (const match of matches.items) {
-          match.font.bold = true;
-          changed++;
-        }
-      }
-
-      await context.sync();
-      savedSelection = true;
-
-      if (!changed) {
-        throw new Error("Word found the selection, but could not format the word beginnings.");
-      }
     });
 
-    setStatus("FocusRead applied. Use Restore original when finished.");
+    setStatus("Word connection works — selected text is now bold.");
   } catch (error) {
-    console.error("FocusRead error:", error);
-    setStatus(error && error.message ? error.message : "FocusRead could not format the selection.", true);
+    console.error("FocusRead test error:", error);
+    setStatus(error && error.message ? error.message : "Word formatting test failed.", true);
   } finally {
     busy = false;
   }
 }
 
 async function restoreOriginal() {
-  if (!savedSelection || !originalOoxml) {
-    setStatus("There is no FocusRead selection to restore yet.", true);
+  if (!originalOoxml) {
+    setStatus("There is no test formatting to restore yet.", true);
     return;
   }
 
@@ -111,7 +80,6 @@ async function restoreOriginal() {
     });
 
     originalOoxml = null;
-    savedSelection = false;
     setStatus("Original formatting restored.");
   } catch (error) {
     console.error("FocusRead restore error:", error);
