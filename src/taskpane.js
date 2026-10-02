@@ -51,12 +51,6 @@ async function applyFocusRead() {
 
       const percentage = Number(document.getElementById("strength").value);
 
-      const separators = [
-        " ", "\t", "\r", "\n", ".", ",", ";", ":", "!", "?",
-        "(", ")", "[", "]", "{", "}", "/", "\\", "-", "—", "–",
-        """, "'"
-      ];
-
       const ranges = selection.split([" ", "\t", "\r", "\n"], true, true, true);
       ranges.load("items/text");
       await context.sync();
