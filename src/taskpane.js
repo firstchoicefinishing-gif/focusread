@@ -55,6 +55,9 @@ async function applyFocusRead() {
       ranges.load("items/text");
       await context.sync();
 
+      const sample = ranges.items.slice(0, 5).map(r => JSON.stringify(r.text)).join(" | ");
+      setStatus("Word found " + ranges.items.length + " text ranges: " + sample);
+
       let changed = 0;
 
       for (const range of ranges.items) {
