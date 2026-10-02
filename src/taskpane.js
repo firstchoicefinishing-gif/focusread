@@ -19,7 +19,7 @@ Office.onReady(() => {
     });
   });
 
-  document.getElementById("apply").addEventListener("click", testWordFormatting);
+  document.getElementById("apply").addEventListener("click", applyFocusRead);
   document.getElementById("restore").addEventListener("click", restoreOriginal);
 });
 
@@ -29,33 +29,84 @@ function setStatus(message, error = false) {
   el.style.color = error ? "#a33" : "#66717d";
 }
 
-async function testWordFormatting() {
+async function applyFocusRead() {
   if (busy) return;
   busy = true;
 
   try {
-    setStatus("Testing Word formatting...");
+    setStatus("Applying FocusRead...");
 
     await Word.run(async context => {
       const selection = context.document.getSelection();
       selection.load("text");
       await context.sync();
 
-      if (!(selection.text || "").trim()) {
+      const selectedText = (selection.text || "").trim();
+      if (!selectedText) {
         throw new Error("Select some text in Word first.");
       }
 
       originalOoxml = selection.getOoxml();
       await context.sync();
 
-      selection.font.bold = true;
+      const percentage = Number(document.getElementById("strength").value);
+
+      const separators = [
+        " ", "\t", "\r", "\n", ".", ",", ";", ":", "!", "?",
+        "(", ")", "[", "]", "{", "}", "/", "\\", "-", "—", "–",
+        """, "'"
+      ];
+
+      const ranges = selection.getTextRanges(separators, true);
+      ranges.load("items/text");
       await context.sync();
+
+      let changed = 0;
+
+      for (const range of ranges.items) {
+        const word = (range.text || "").trim();
+
+        if (!word || !/[A-Za-z0-9À-ÿ]/.test(word)) {
+          continue;
+        }
+
+        const letters = word.match(/[A-Za-z0-9À-ÿ]/g);
+        if (!letters || !letters.length) {
+          continue;
+        }
+
+        const count = Math.max(1, Math.ceil(letters.length * percentage / 100));
+
+        // Find the first count characters of the word within this word-range.
+        const prefix = word.slice(0, count);
+
+        const matches = range.search(prefix, {
+          matchCase: true,
+          matchWholeWord: false
+        });
+
+        matches.load("items");
+        await context.sync();
+
+        if (matches.items.length > 0) {
+          // The range represents one word, so the first match is the
+          // beginning of that word.
+          matches.items[0].font.bold = true;
+          changed++;
+        }
+      }
+
+      await context.sync();
+
+      if (!changed) {
+        throw new Error("FocusRead could not find any word beginnings in the selected text.");
+      }
     });
 
-    setStatus("Word connection works — selected text is now bold.");
+    setStatus("FocusRead applied — beginning of each word emphasised.");
   } catch (error) {
-    console.error("FocusRead test error:", error);
-    setStatus(error && error.message ? error.message : "Word formatting test failed.", true);
+    console.error("FocusRead error:", error);
+    setStatus(error && error.message ? error.message : "FocusRead could not format the selection.", true);
   } finally {
     busy = false;
   }
@@ -63,7 +114,7 @@ async function testWordFormatting() {
 
 async function restoreOriginal() {
   if (!originalOoxml) {
-    setStatus("There is no test formatting to restore yet.", true);
+    setStatus("There is no FocusRead formatting to restore yet.", true);
     return;
   }
 
