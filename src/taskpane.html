@@ -1,115 +1,44 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>FocusRead</title>
-
-  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-
-  <link rel="stylesheet" href="taskpane.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FocusRead</title>
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<link rel="stylesheet" href="taskpane.css?v=2">
 </head>
-
 <body>
-
-  <main>
-
-    <header>
-      <div class="brand">
-        Focus<span>Read</span>
-      </div>
-
-      <div class="tagline">
-        Make dense text easier to scan.
-      </div>
-    </header>
-
-    <section class="card">
-
-      <h1>FocusRead</h1>
-
-      <p class="intro">
-        Select text in Word, choose a strength, then apply FocusRead.
-      </p>
-
-      <div class="presets">
-        <button type="button" data-strength="20">
-          Light
-        </button>
-
-        <button type="button" data-strength="35" class="active">
-          Balanced
-        </button>
-
-        <button type="button" data-strength="50">
-          Strong
-        </button>
-      </div>
-
-      <label for="strength">
-        <span>Strength</span>
-        <strong id="strengthValue">35%</strong>
-      </label>
-
-      <input
-        id="strength"
-        type="range"
-        min="10"
-        max="70"
-        value="35"
-      >
-
-      <button
-        type="button"
-        id="apply"
-        class="primary"
-      >
-        Apply FocusRead
-      </button>
-
-      <button
-        type="button"
-        id="restore"
-        class="secondary"
-      >
-        Restore original
-      </button>
-
-      <div
-        id="status"
-        class="status"
-        aria-live="polite"
-      >
-        Ready — select some text in Word.
-      </div>
-
-    </section>
-
-    <section class="card small">
-
-      <h2>How it works</h2>
-
-      <ol>
-        <li>Select a paragraph or passage in Word.</li>
-        <li>Open FocusRead.</li>
-        <li>Choose a strength.</li>
-        <li>Click <strong>Apply FocusRead</strong>.</li>
-        <li>Click <strong>Restore original</strong> when finished.</li>
-      </ol>
-
-      <p class="note">
-        FocusRead is a reading aid. It does not diagnose or treat
-        ADHD, dyslexia or any other condition.
-      </p>
-
-    </section>
-
-  </main>
-
-  <script src="taskpane.js"></script>
-
+<main>
+<header>
+<div class="brand">Focus<span>Read</span></div>
+<div class="tagline">Make dense text easier to scan.</div>
+</header>
+<section class="card">
+<h1>FocusRead</h1>
+<p class="intro">Select text in Word, choose a strength, then apply FocusRead.</p>
+<div class="presets">
+<button type="button" data-strength="20">Light</button>
+<button type="button" data-strength="35" class="active">Balanced</button>
+<button type="button" data-strength="50">Strong</button>
+</div>
+<label for="strength"><span>Strength</span><strong id="strengthValue">35%</strong></label>
+<input id="strength" type="range" min="10" max="70" value="35">
+<button type="button" id="apply" class="primary">Apply FocusRead</button>
+<button type="button" id="restore" class="secondary">Restore original</button>
+<div id="status" class="status" aria-live="polite">Ready — select some text in Word.</div>
+</section>
+<section class="card small">
+<h2>How it works</h2>
+<ol>
+<li>Select a paragraph or passage in Word.</li>
+<li>Open FocusRead.</li>
+<li>Choose a strength.</li>
+<li>Click <strong>Apply FocusRead</strong>.</li>
+<li>Click <strong>Restore original</strong> when finished.</li>
+</ol>
+<p class="note">FocusRead is a reading aid. It does not diagnose or treat ADHD, dyslexia or any other condition.</p>
+</section>
+</main>
+<script src="taskpane.js?v=2"></script>
 </body>
 </html>
-```
